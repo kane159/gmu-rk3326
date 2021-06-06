@@ -941,7 +941,7 @@ int main(int argc, char **argv)
 	PB_Status    current_file_player_status = STOPPED;
 	int          auto_shutdown = 0;
 	time_t       start, end;
-	Verbosity    v = V_INFO;
+	Verbosity    v = V_DEBUG;
 	char        *frontend_plugin_by_cmd_arg[MAX_FRONTEND_PLUGIN_BY_CMD_ARG];
 	size_t       frontend_plugin_by_cmd_arg_counter = 0;
 	int          pb_time = -1;
@@ -1067,7 +1067,7 @@ int main(int argc, char **argv)
 	if (config_file_path)
 		wdprintf(V_INFO, "gmu", "Loading configuration %s...\n", config_file_path);
 	else
-		wdprintf(V_WARNING, "gmu", "Unable to find configuration at specified location.\n");
+		wdprintf(V_WARNING, "gmu", "Unable to find configuration[%s] at specified location.\n", config_file_path);
 	gmu_core_config_acquire_lock();
 	config = cfg_init();
 	add_default_cfg_settings(config);

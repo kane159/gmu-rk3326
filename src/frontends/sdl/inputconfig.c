@@ -96,6 +96,8 @@ int input_config_init(char *inputconf_file)
 			val = cfg_get_key_value(inputconf, key);
 			if (val) {
 				/* split val into keycode and name */
+				wdprintf(V_INFO, "inputconfig", "%s => %s\n", key, val);
+
 				val_int = atoi(val);
 				name = val;
 
@@ -106,6 +108,8 @@ int input_config_init(char *inputconf_file)
 				hw_button_type[j] = INPUT_JOYSTICK;
 				if (hw_button_name[j]) {
 					has_joystick = 1;
+					wdprintf(V_INFO, "inputconfig", "has_joystick = 1\n");
+
 					strncpy(hw_button_name[j], name, namelen);
 					hw_button_name[j][namelen] = '\0';
 					hw_button_val[j] = val_int;

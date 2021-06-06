@@ -3,9 +3,9 @@
  *
  * Copyright (c) 2006-2010 Johannes Heimansberg (wejp.k.vu)
  *
- * File: hw_gp2x.h  Created: ?
+ * File: hw_zipit-z2.h  Created: 100821
  *
- * Description: GP2X specific stuff (button mapping etc.)
+ * Description: Hardware specific header file for the Zipit Z2 handheld
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,25 +13,11 @@
  * the License. See the file COPYING in the Gmu's main directory
  * for details.
  */
-#ifndef _HW_GP2X_H
-#define _HW_GP2X_H
-
-#include <stdlib.h>
 #include <stdio.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <linux/fb.h>
-#include <unistd.h>
-#include <stropts.h>
+#ifndef _HW_ZIPIT_Z2_H
+#define _HW_ZIPIT_Z2_H
 
 #define SAMPLE_BUFFER_SIZE 4096
-
-typedef enum GP2XModel { MODEL_UNKNOWN, MODEL_F100, MODEL_F200, MODEL_WIZ } GP2XModel;
-
-void          gp2x_set_cpu_clock(unsigned int MHz);
-unsigned char gp2x_init_phys(void);
-void          gp2x_close_phys(void);
-GP2XModel     gp2x_get_model(void);
 
 int           hw_open_mixer(int mixer_channel);
 void          hw_close_mixer(void);

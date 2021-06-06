@@ -123,7 +123,7 @@ static SDL_Surface *init_sdl(int with_joystick, int width, int height, int fulls
 	SDL_Surface         *display = NULL;
 //	const SDL_VideoInfo *video_info;
 	int                 init_okay = 0;
-
+	wdprintf(V_DEBUG, "sdl_frontend", "init_sdl:%d,%d,%d,%d.\n",with_joystick, width, height,fullscreen);
 	if (!SDL_WasInit(SDL_INIT_VIDEO)) {
 		if (SDL_InitSubSystem(SDL_INIT_VIDEO | (with_joystick ? SDL_INIT_JOYSTICK : 0)) < 0) {
 			wdprintf(V_ERROR, "sdl_frontend", "ERROR: Could not initialize SDL: %s\n", SDL_GetError());
@@ -144,8 +144,8 @@ static SDL_Surface *init_sdl(int with_joystick, int width, int height, int fulls
 			wdprintf(V_INFO, "sdl_frontend", "Available screen real estate: %d x %d pixels @ %d bpp\n",
 					 screen_max_width, screen_max_height, screen_max_depth);
 		} else*/ {
-			screen_max_width  = 1280;
-			screen_max_height = 720;
+			screen_max_width  = 640;
+			screen_max_height = 480;
 			screen_max_depth  = 32;
 			wdprintf(V_WARNING, "sdl_frontend", "Unable to determine screen resolution.\n");
 		}
@@ -1441,6 +1441,7 @@ static int init(void)
 	gmu_core_config_acquire_lock();
 	w = cfg_get_int_value(config, "SDL.Width");
 	h = cfg_get_int_value(config, "SDL.Height");
+	wdprintf(V_INFO, "sdl_frontend", "w,h from cofig %s:%d,%d\n", config->file , w, h);
 	if (w < 320 || h < 240) {
 		w = 320;
 		h = 240;
