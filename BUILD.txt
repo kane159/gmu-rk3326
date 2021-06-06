@@ -76,7 +76,7 @@ After a successful configure run Gmu can be built with make, e.g.:
 
 $ make -j5
 
-Another example (for building Gmu with the OpenWRT Zipit Z2 toolchain):
+example (for building Gmu with the OpenWRT Zipit Z2 toolchain):
 
 $ CFLAGS="-I/opt/openwrt-libs-includes_bleeding-edge/usr/include/ncursesw -I/opt/openwrt-libs-includes_bleeding-edge/usr/include/SDL -I/opt/openwrt-libs-includes_bleeding-edge/usr/include" \
 LFLAGS="-L/opt/openwrt-libs-includes_bleeding-edge/lib -L/opt/openwrt-libs-includes_bleeding-edge/usr/lib" \
@@ -84,6 +84,14 @@ CC=arm-openwrt-linux-muslgnueabi-gcc ./configure \
 --sdk-path=/opt/OpenWrt-Toolchain-pxa_gcc-5.3.0_musl-1.1.14_eabi.Linux-x86_64/toolchain-arm_xscale_gcc-5.3.0_musl-1.1.14_eabi/ \
 --target-device=zipit-z2
 $ make
+
+Another example (for building Gmu of rg351v with EmuElec toolchain)
+export toolchain=/opt/myprojects/EmuELEC/build.EmuELEC-OdroidGoAdvance.arm-3.8/toolchain/
+CFLAGS=`${toolchain}armv8a-libreelec-linux-gnueabi/sysroot/usr/bin/sdl2-config --cflags` \
+LFLAGS=`${toolchain}armv8a-libreelec-linux-gnueabi/sysroot/usr/bin/sdl2-config --libs` \
+CC=${toolchain}bin/armv8a-libreelec-linux-gnueabi-gcc ./configure \
+--sdk-path=${toolchain}armv8a-libreelec-linux-gnueabi/sysroot/ \
+--target-device=rg351v
 
 Prior to Gmu 0.10.0 it was necessary to create an .mk config file manually
 or use one of the included files for building for a specific target.
