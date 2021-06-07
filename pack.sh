@@ -7,4 +7,4 @@ cp gmu.rg351v.conf ./dist/emuelec/gmu/gmu.conf
 cp gmuinput.rg351v.conf ./dist/emuelec/gmu/gmuinput.rg351v.conf
 cp rg351v.keymap ./dist/emuelec/gmu/default.keymap
 cd ./dist/
-tar -czvf ../gmu-rg341v-bin.tar.gz ./
+tar -czvf ../gmu-rg351v-bin.tar.gz ./
