@@ -1,7 +1,7 @@
 /* 
  * Gmu Music Player
  *
- * Copyright (c) 2006-2015 Johannes Heimansberg (wejp.k.vu)
+ * Copyright (c) 2006-2012 Johannes Heimansberg (wejp.k.vu)
  *
  * File: charset.c  Created: 061115
  *
@@ -19,13 +19,10 @@
 #include "charset.h"
 #include "debug.h"
 
-int charset_utf8_to_iso8859_1(char *target, const char *source, size_t target_size)
+int charset_utf8_to_iso8859_1(char *target, const char *source, int target_size)
 {
-	int                  i, j;
-	size_t               len = strlen(source);
-	int                  valid = 1;
-	const unsigned char *src = (const unsigned char *)source;
-
+	int            i, j, len = strlen(source), valid = 1;
+	unsigned char *src = (unsigned char *)source;
 	len = (len < target_size ? len : target_size);
 	for (i = 0, j = 0; i < len; i++) {
 		if (src[i] < 128) { /* ASCII char */
@@ -71,13 +68,9 @@ static UCodePoint get_utf16_code_point(const char *source, ByteOrder byte_order)
 	return code_point;
 }
 
-int charset_utf16_to_iso8859_1(
-	char       *target,
-	size_t      target_size,
-	const char *source,
-	size_t      source_size,
-	ByteOrder   byte_order
-)
+int charset_utf16_to_iso8859_1(char       *target, int target_size,
+                               const char *source, int source_size,
+                               ByteOrder   byte_order)
 {
 	int valid = 1, i = (byte_order == BOM ? 2 : 0), j = 0;
 
@@ -112,13 +105,10 @@ int charset_utf16_to_iso8859_1(
 	return valid;
 }
 
-int charset_iso8859_1_to_utf8(char *target, const char *source, size_t target_size)
+int charset_iso8859_1_to_utf8(char *target, const char *source, int target_size)
 {
-	int                  i, j;
-	size_t               len = strlen(source);
-	int                  valid = 1;
-	const unsigned char *src = (const unsigned char *)source;
-
+	int            i, j, len = strlen(source), valid = 1;
+	unsigned char *src = (unsigned char *)source;
 	len = (len < target_size ? len : target_size);
 	for (i = 0, j = 0; i < len && j < target_size-1; i++, j++) {
 		if (src[i] < 128) { /* ASCII char */
@@ -142,9 +132,8 @@ void charset_filename_set(Charset charset)
 
 char *charset_filename_convert_alloc(const char *filename)
 {
-	char  *buf = NULL;
-	size_t len = filename ? strlen(filename) : 0;
-
+	char *buf = NULL;
+	int   len = filename ? strlen(filename) : 0;
 	if (len > 0) buf = malloc(len+1);
 	if (buf) {
 		buf[len] = '\0';
@@ -160,13 +149,9 @@ char *charset_filename_convert_alloc(const char *filename)
 	return buf;
 }
 
-int charset_utf16_to_utf8(
-	char       *target,
-	size_t      target_size,
-	const char *source,
-	size_t      source_size,
-	ByteOrder   byte_order
-)
+int charset_utf16_to_utf8(char       *target, int target_size,
+                          const char *source, int source_size,
+                          ByteOrder   byte_order)
 {
 	int valid = 1, i = (byte_order == BOM ? 2 : 0), j = 0;
 
@@ -239,13 +224,47 @@ int charset_utf16_to_utf8(
 	return valid;
 }
 
+/*int charset_convert_string_autodetect(const char *source, char *target,
+                                      Charset     target_charset,
+                                      int         target_size)
+{*/
+	/* Try to convert from UTF-8 first: */
+	
+	/* When everything else failed, assume ISO-8859-1: */
+/*	return 0;
+}*/
+
+/*int charset_convert_string(const char *source, Charset source_charset,
+                           char       *target, Charset target_charset,
+                           int         target_size)
+{
+	int result = 0;
+	if (target_charset == ISO_8859_1 || target_charset == ISO_8859_15) {
+		switch (source_charset) {
+			case ASCII:
+			case ISO_8859_1:
+			case ISO_8859_15:
+				strncpy(target, source, target_size);
+				result = 1;
+				break;
+			case UTF_8:
+				result = charset_utf8_to_iso8859_1(target, source, target_size);
+				break;
+			case UNKNOWN_CHARSET:
+			default:
+				wdprintf(V_WARNING, "charset", "Source charset not supported.\n");
+				break;
+		}
+	} else {
+		wdprintf(V_WARNING, "charset", "Target charset not supported.\n");
+	}
+	return result;
+}*/
+
 int charset_is_valid_utf8_string(const char *str)
 {
-	int                  i;
-	size_t               len = strlen(str);
-	int                  valid = 1;
-	const unsigned char *src = (const unsigned char *)str;
-
+	int            i, len = strlen(str), valid = 1;
+	unsigned char *src = (unsigned char *)str;
 	for (i = 0; i < len; i++) {
 		if (src[i] < 128) { /* ASCII char */
 			/* nothing to do */
@@ -266,12 +285,39 @@ int charset_is_valid_utf8_string(const char *str)
 	return valid;
 }
 
-int charset_utf8_to_codepoints(UCodePoint *target, const char *source, size_t target_size)
+int charset_gbk_to_codepoints(UCodePoint *target, const char *source, int target_size)
 {
-	int                  i, j;
-	size_t               len = strlen(source);
-	int                  valid = 1;
-	const unsigned char *src = (const unsigned char *)source;
+	int            i, j, len = strlen(source), valid = 1;
+	unsigned char *src = (unsigned char *)source;
+
+	for (i = 0, j = 0; j < target_size && source[i]; i++) {
+		if (src[i] < 128) { /* ASCII char */
+			target[j] = src[i];
+		} else if (src[i] >= 161 && src[i] <= 274) { /* 2 byte char */
+			if (i+1 >= len || src[i+1] < 128) {
+				valid = 0;
+			} else {
+				target[j] = (src[i] << 8) +src[i+1];
+				i += 1;
+			}
+		} 
+		else {
+			valid = 0;
+		}
+		if (!valid) {
+			/*wdprintf(V_DEBUG, "charset", "utf-8: Invalid UTF-8 string!\n");*/
+			break;
+		}
+		j++;
+	}
+	for (i = j; i < target_size; i++) target[i] = 0;
+	return valid;
+}
+
+int charset_utf8_to_codepoints(UCodePoint *target, const char *source, int target_size)
+{
+	int            i, j, len = strlen(source), valid = 1;
+	unsigned char *src = (unsigned char *)source;
 
 	for (i = 0, j = 0; j < target_size && source[i]; i++) {
 		if (src[i] < 128) { /* ASCII char */
@@ -310,15 +356,33 @@ int charset_utf8_to_codepoints(UCodePoint *target, const char *source, size_t ta
 	for (i = j; i < target_size; i++) target[i] = 0;
 	return valid;
 }
-
+int charset_gbk_len(const char *str) {
+	int gbklen = 0;
+	int            i, len = strlen(str), valid = 1;
+	unsigned char *src = (unsigned char *)str;
+	for (i = 0; i < len; i++) {
+		if (src[i] < 128) { /* ASCII char */
+			gbklen++;
+		} else if (src[i] >= 161 && src[i] < 247) { /* 2 byte char */
+			if (i+1 >= len || src[i+1] < 128) valid = 0;
+			i += 1;
+			gbklen++;
+		}else {
+			valid = 0;
+		}
+		if (!valid) {
+			gbklen = 0;
+			/*wdprintf(V_DEBUG, "charset", "utf-8: Invalid UTF-8 string!\n");*/
+			break;
+		}
+	}
+	return gbklen;
+}
 int charset_utf8_len(const char *str)
 {
 	int u8len = 0;
-	int                  i;
-	size_t               len = strlen(str);
-	int                  valid = 1;
-	const unsigned char *src = (const unsigned char *)str;
-
+	int            i, len = strlen(str), valid = 1;
+	unsigned char *src = (unsigned char *)str;
 	for (i = 0; i < len; i++) {
 		if (src[i] < 128) { /* ASCII char */
 			u8len++;
@@ -348,11 +412,9 @@ int charset_utf8_len(const char *str)
 
 int charset_fix_broken_utf8_string(char *str)
 {
-	int                  i;
-	size_t               len = strlen(str);
-	int                  fixed = 0;
-	const unsigned char *src = (const unsigned char *)str;
-
+	int i, len = strlen(str);
+	int fixed = 0;
+	unsigned char *src = (unsigned char *)str;
 	for (i = 0; i < len; i++) {
 		if (src[i] < 128) { /* ASCII char */
 			/* nothing to do */

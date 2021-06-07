@@ -17,7 +17,6 @@
 #include <stdlib.h>
 #include "oss_mixer.h"
 #include "debug.h"
-#include "hw_zipit-z2.h"
 
 static int display_on_value = 100, keyboard_on_value = 100;
 static int selected_mixer = -1;
@@ -75,5 +74,5 @@ void hw_detect_device_model(void)
 
 const char *hw_get_device_model_name(void)
 {
-	return "Zipit Z2";
+	return "俺拔你卡-RG351V";
 }

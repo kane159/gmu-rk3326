@@ -72,11 +72,11 @@ static void player_display_show_volume(TextRenderer *tr, SDL_Surface *target, in
 		else if (volume == 10) vol_ch2 = 'l';
 
 		if (vol_ch1)
-			textrenderer_draw_char(&skin.data.font_display, vol_ch1, target, 
+			textrenderer_draw_asc_char(&skin.data.font_display, vol_ch1, target, 
 			                       skin.config.volume_offset_x,
 			                       skin.config.volume_offset_y);		
 		if (vol_ch2)
-			textrenderer_draw_char(&skin.data.font_display, vol_ch2, target, 
+			textrenderer_draw_asc_char(&skin.data.font_display, vol_ch2, target, 
 			                       skin.config.volume_offset_x + tr->chwidth,
 			                       skin.config.volume_offset_y);
 	}*/
@@ -151,7 +151,9 @@ void player_display_draw(TextRenderer *tr, TrackInfo *ti, PB_Status player_statu
 		/* Fix the string in case it was cropped due to length limit 
 		 * and left an incomplete uft8 char at the end: */
 		charset_fix_broken_utf8_string(text);
-		str_len = charset_utf8_len(text)+1;
+		unsigned char gbk_str[1024];
+		u2g(text, strlen(text), gbk_str, sizeof(gbk_str));
+		str_len = charset_gbk_len(gbk_str)+1;
 
 		SDL_LockMutex(notice_mutex);
 		if (notice_time_left == 0) {
@@ -164,19 +166,21 @@ void player_display_draw(TextRenderer *tr, TrackInfo *ti, PB_Status player_statu
 			lcd_text_cp = malloc(sizeof(UCodePoint) * lcd_text_cp_size);
 			if (lcd_text_cp) {
 				int i;
-				strtoupper(lcd_text, text, strlen(text)+1);
+				strtoupper(lcd_text, gbk_str, strlen(gbk_str)+1);
 				for (i = 0; i < lcd_text_cp_size; i++) lcd_text_cp[i] = ' ';
-				charset_utf8_to_codepoints(lcd_text_cp+str_max_visible_len, lcd_text, str_len);
+				charset_gbk_to_codepoints(lcd_text_cp+str_max_visible_len, lcd_text, str_len);
 			}
 		} else {
 			int i;
 			strtoupper(lcd_text, notice_message, len);
-			str_len = charset_utf8_len(lcd_text)+1;
+			unsigned char gbk_lcd_str[1024];
+			u2g(lcd_text, strlen(lcd_text), gbk_lcd_str, sizeof(gbk_lcd_str));
+			str_len = charset_gbk_len(gbk_lcd_str)+1;
 			lcd_text[len] = '\0';
 			lcd_text_cp_size = str_len+str_max_visible_len+1;
 			lcd_text_cp = malloc(sizeof(UCodePoint) * lcd_text_cp_size);
 			for (i = 0; i < lcd_text_cp_size; i++) lcd_text_cp[i] = ' ';
-			charset_utf8_to_codepoints(lcd_text_cp, lcd_text, str_len);
+			charset_gbk_to_codepoints(lcd_text_cp, gbk_lcd_str, str_len);
 		}
 
 		if (lcd_text_cp) {
@@ -197,7 +201,7 @@ void player_display_draw(TextRenderer *tr, TrackInfo *ti, PB_Status player_statu
 			char       busy_ch[] = { '-', '\\', 'I', '/' };
 			static int ch_sel = 0;
 
-			textrenderer_draw_char(&skin.font_display, busy_ch[ch_sel], buffer,
+			textrenderer_draw_asc_char(&skin.font_display, busy_ch[ch_sel], buffer,
 			                      skin.title_scroller_offset_x1 +
 			                      (title_scroller_chars-1) *
 			                      (skin.font_display_char_width+1),
@@ -219,14 +223,14 @@ void player_display_draw(TextRenderer *tr, TrackInfo *ti, PB_Status player_statu
 		}
 	}
 	if (skin.bitrate_offset_x >= 0 && skin.bitrate_offset_y >= 0) {
-		snprintf(buf, 27, "%4d KBPS", (int)(recent_bitrate / 1000));
+		snprintf(buf, 27, "%4d K比特率", (int)(recent_bitrate / 1000));
 		textrenderer_draw_string(&skin.font_display, buf, buffer,
 		                         skin.bitrate_offset_x, skin.bitrate_offset_y);
 	}
 	if (skin.frequency_offset_x >= 0 && skin.frequency_offset_y >= 0) {
 		char tmp6[6];
 		snprintf(tmp6, 6, "%05d", samplerate);
-		snprintf(buf, 27, "%c%c.%c KHZ", tmp6[0] != '0' ? tmp6[0] : ' ', tmp6[1], tmp6[2]);
+		snprintf(buf, 27, "%c%c.%c K采样率", tmp6[0] != '0' ? tmp6[0] : ' ', tmp6[1], tmp6[2]);
 		textrenderer_draw_string(&skin.font_display, buf, buffer,
 		                         skin.frequency_offset_x, skin.frequency_offset_y);
 	}

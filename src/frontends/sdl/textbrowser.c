@@ -128,7 +128,28 @@ void text_browser_draw(TextBrowser *tb, SDL_Surface *sdl_target)
 
 		strncpy(line, tb->text+char_offset, line_length);
 		line[line_length] = '\0';
+		//draw qr
+		for (int qi = 0; qi < line_length; qi++) {
+		if (line[qi] == '*' 
+			&& line[qi+1] == 'Q'
+			&& line[qi+2] == 'R'
+			&& line[qi+3] == '*')
+			{
+				line[qi] = ' ';
+				line[qi+1] = ' ';
+				line[qi+2] = ' ';
+				line[qi+3] = ' ';
+				SDL_Rect offset;
+				offset.x = tb->pos_x + 40;
+				offset.y = tb->pos_y + yo;
+				offset.w = 150;
+				offset.h = 150;
+				yo += 150 + 1;
+				SDL_BlitSurface( tb->qr, NULL, sdl_target, &offset ); 
 
+			}
+		}
+		
 		textrenderer_draw_string_with_highlight(&tb->skin->font1, &tb->skin->font2,
 		                                        line, tb->offset_x, sdl_target,
 		                                        tb->pos_x + indent, tb->pos_y + yo,

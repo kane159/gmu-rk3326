@@ -23,15 +23,23 @@ struct _TextRenderer
 {
 	SDL_Surface *chars;
 	int chwidth, chheight;
+    Uint32 color;
 };
 
 typedef struct _TextRenderer TextRenderer;
 
 typedef enum { RENDER_DEFAULT, RENDER_CROP, RENDER_ARROW } Render_Mode;
 
-int  textrenderer_init(TextRenderer *tr, char *chars_file, int chwidth, int chheight);
+int  textrenderer_init(TextRenderer *tr, char *chars_file,int chwidth, int chheight,int typeOfColor);
 void textrenderer_free(TextRenderer *tr);
-void textrenderer_draw_char(const TextRenderer *tr, UCodePoint ch, SDL_Surface *target, 
+
+Uint32 getpixel(SDL_Surface *surface, int x, int y);
+void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
+
+void DrawOnePoint(SDL_Surface *screen, int x, int y, const TextRenderer *tr);
+void textrenderer_draw_cjk_char(const TextRenderer *tr,Uint16 ch, SDL_Surface *screen, int ShowX, int ShowY);
+
+void textrenderer_draw_asc_char(const TextRenderer *tr, UCodePoint ch, SDL_Surface *target, 
                             int target_x, int target_y);
 void textrenderer_draw_string_codepoints(const TextRenderer *tr, const UCodePoint *str, 
                                          int str_len, SDL_Surface *target, 

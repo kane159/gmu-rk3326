@@ -73,21 +73,21 @@ void about_init(TextBrowser *tb_about, Skin *skin, char *decoders)
 {
 	static char txt[1024];
 
-	snprintf(txt, 1023, "This is the Gmu music player.\n\n"
-	                    "Version.........: **"VERSION_NUMBER"**\n"
-	                    "Built on........: "__DATE__" "__TIME__"\n"
-	                    "Detected device.: %s\n"
-	                    "Config directory: %s\n\n"
-	                    "Gmu supports various file formats\n"
-	                    "through decoder plugins.\n\n"
-	                    "%s decoders:\n\n%s\n"
+	snprintf(txt, 1023, "Gmu音乐播放器.\n\n"
+	                    "版本.........: **"VERSION_NUMBER"**\n"
+	                    "基于........: "__DATE__" "__TIME__"\n"
+	                    "检测到设备.: %s\n"
+	                    "配置目录: %s\n\n"
+	                    "Gmu支持各种文件格式\n"
+	                    "通过解码器插件.\n\n"
+	                    "%s 解码器:\n\n%s\n"
 	                    "%s",
 	                    gmu_core_get_device_model_name(),
 	                    gmu_core_get_config_dir(),
-	                    STATIC ? "Static build with built-in" : "Loaded",
+	                    STATIC ? "静态内置" : "动态加载",
 	                    decoders,
 	                    text_about_gmu);
 
 	text_browser_init(tb_about, skin);
-	text_browser_set_text(tb_about, txt, "About Gmu");
+	text_browser_set_text(tb_about, txt, "关于 Gmu");
 }

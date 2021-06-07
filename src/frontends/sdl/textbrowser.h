@@ -19,6 +19,7 @@
 #define _TEXTBROWSER_H
 typedef struct _TextBrowser {
 	const char *text, *title;
+	SDL_Surface *qr;
 	int         text_length;
 	int         offset_x;
 	int         pos_x, pos_y, chars_per_line;

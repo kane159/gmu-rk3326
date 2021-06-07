@@ -166,7 +166,7 @@ void file_browser_draw(FileBrowser *fb, SDL_Surface *sdl_target)
 		if (pl > chars_left) memcpy(buf2, "...", 3);
 	}
 
-	snprintf(buf, FB_MAXIMUM_STR_LENGTH, "File browser (%s)", buf2);
+	snprintf(buf, FB_MAXIMUM_STR_LENGTH, "文件浏览(%s)", buf2);
 	skin_draw_header_text(fb->skin, buf, sdl_target);
 
 	fb->longest_line_so_far = 0;
@@ -178,7 +178,7 @@ void file_browser_draw(FileBrowser *fb, SDL_Surface *sdl_target)
 	    const TextRenderer *font, *font_inverted;
 
 		if (dir_get_flag(fb->dir, i) == DIRECTORY) {
-			snprintf(buf, len, "[DIR]");
+			snprintf(buf, len, "[目录]");
 		} else {
 			char fsbuf[32];
 			dir_get_human_readable_filesize(fb->dir, i, fsbuf, 32);
