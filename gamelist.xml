@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<gameList>
+	<game>
+		<path>./00 - The Gmu Music Player.sh</path>
+		<name>00-音乐播放器</name>
+		<desc>The Gmu Music Player</desc>
+		<developer>Johannes Heimansberg</developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/gmu.png</image>
+	</game>
+	<game>
+		<path>./01 - Input Test.sh</path>
+		<name>01-按键测试</name>
+		<desc>测试按键和摇杆功能</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/test.png</image>
+	</game>
+	<game>
+		<path>./03 - install data.sh</path>
+		<name>03-安装资源文件</name>
+		<desc>安装update中的资源文件.</desc>
+		<developer>G.R.H</developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/data.png</image>
+	</game>
+	<game>
+		<path>./04 - install drastic.sh</path>
+		<name>04-安装 NDS 模拟器</name>
+		<desc>下载并安装 Drastic 模拟器, 需要网络连接!</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/drastic.png</image>
+	</game>
+	<game>
+		<path>./05 - backup.sh</path>
+		<name>05-备份当前设置</name>
+		<desc>备份当前系统的各项常用设置.</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/backup.png</image>
+	</game>
+	<game>
+		<path>./06 - restore.sh</path>
+		<name>06-恢复备份设置</name>
+		<desc>恢复备份的系统常用设置.</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/restore.png</image>
+	</game>
+	<game>
+		<path>./07 - Restore default.sh</path>
+		<name>07-系统复原</name>
+		<desc>恢复系统设置为默认值，不会丢失存档等资源!</desc>
+		<developer>GRH</developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/default.png</image>
+	</game>
+	<game>
+		<path>./08 - send logs.sh</path>
+		<name>08-发送日志</name>
+		<desc>使用它来获取可以在寻求帮助时共享的 URL</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/logs.png</image>
+	</game>
+	<game>
+		<path>./13 - Launch Terminal (kb).sh</path>
+		<name>13-启动终端</name>
+		<desc>开启一个终端, 需要连接键盘!</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/terminal.png</image>
+	</game>
+	<game>
+		<path>./02 - File Manager (kb).sh</path>
+		<name>02-文件管理器</name>
+		<desc>文件管理器.</desc>
+		<image>./downloaded_images/File Manager.png</image>
+		<developer>shantigilbert</developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<playcount>1</playcount>
+		<lastplayed>20210317T133214</lastplayed>
+		<gametime>145</gametime>
+	</game>
+	<game>
+		<path>./12 - Show last emuelec.log.sh</path>
+		<name>12-显示最后 emuelec 日志</name>
+		<desc>在屏幕上显示最后的 emuelec.log 来调试游戏启动问题</desc>
+		<image>./downloaded_images/last.png</image>
+		<developer>shantigilbert</developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<playcount>1</playcount>
+		<lastplayed>20210408T213836</lastplayed>
+		<gametime>91</gametime>
+	</game>
+</gameList>

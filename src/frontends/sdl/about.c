@@ -19,24 +19,23 @@
 #include "core.h"
 
 static const char *text_about_gmu = 
-	"Libraries used by this program:\n\n"
-	"- SDL, SDL_Image, SDL_gfx (optional)\n\n"
-	"The decoder plugins use additional\n"
-	"libraries for decoding.\n\n"
-	"Program written by\n"
-	"Johannes Heimansberg (**wej.k.vu**)\n\n"
-	"Please take a look at the README.txt\n"
-	"file for more details and\n"
-	"configuration hints. You also might\n"
-	"want to check the in-program help\n"
-	"screen.\n\n"
-	"Project website:\n"
-	"**http://wej.k.vu/projects/gmu/**\n\n"
-	"Gmu is free software: you can\n"
-	"redistribute it and/or modify it under\n"
-	"the terms of the GNU General Public\n"
-	"License version 2.\n";
-
+"此程序使用的库：\n\n"
+"-SDL，SDL Image，SDL gfx（可选）\n\n"
+"解码器插件使用额外的\n"
+"用于解码的库。\n\n"
+"程序编写者:\n"
+"约翰内斯·海曼斯堡（**wej.k.vu**）\n\n"
+"请查看README.txt\n"
+"文件以获取更多详细信息和\n"
+"配置提示。您还可以\n"
+"查看程序的帮助\n"
+"屏幕。\n\n"
+"项目网站：\n"
+"**http://wej.k.vu/projects/gmu/**\n\n"
+"Gmu是免费软件：您可以\n"
+"在下面协议内重新分发和/或修改它:\n"
+"GNU通用公共条款\n"
+"许可证版本2。\n";
 int about_process_action(TextBrowser *tb_about, View *view, View old_view, int user_key_action)
 {
 	int update = 0;
