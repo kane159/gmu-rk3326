@@ -237,19 +237,19 @@ void cover_viewer_show(CoverViewer *cv, SDL_Surface *target, int with_image)
 	}
 
 	if (cv->hide_text && !cv->hide_cover &&  !cv->spectrum_analyzer)
-		skin_draw_header_text(cv->skin, "Track info (Cover only)", target);
+		skin_draw_header_text(cv->skin, "曲目信息 (仅封面)", target);
 	else if (cv->hide_cover && !cv->hide_text && !cv->spectrum_analyzer)
-		skin_draw_header_text(cv->skin, "Track info (Text only)", target);
+		skin_draw_header_text(cv->skin, "曲目信息 (仅文本)", target);
 	else if (cv->hide_cover && cv->hide_text && cv->spectrum_analyzer)
-		skin_draw_header_text(cv->skin, "Track info (Spectrum analyzer only)", target);
+		skin_draw_header_text(cv->skin, "曲目信息 (仅频谱分析仪)", target);
 	else if (cv->hide_text && cv->hide_cover && !cv->spectrum_analyzer)
-		skin_draw_header_text(cv->skin, "Track info (showing nothing)", target);
+		skin_draw_header_text(cv->skin, "曲目信息 (什么也没)", target);
 	else if (cv->hide_text && !cv->hide_cover && cv->spectrum_analyzer)
-		skin_draw_header_text(cv->skin, "Track info (Cover + Spectrum analyzer)", target);
+		skin_draw_header_text(cv->skin, "曲目信息 (封面 + 频谱分析仪)", target);
 	else if (!cv->hide_text && cv->hide_cover && cv->spectrum_analyzer)
-		skin_draw_header_text(cv->skin, "Track info (Text + Spectrum analyzer)", target);
+		skin_draw_header_text(cv->skin, "曲目信息 (文本 + 频谱分析仪)", target);
 	else if (!cv->hide_text && !cv->hide_cover && !cv->spectrum_analyzer)
-		skin_draw_header_text(cv->skin, "Track info (Text + Cover)", target);
+		skin_draw_header_text(cv->skin, "曲目信息 (文本 + 封面)", target);
 }
 
 void cover_viewer_scroll_down(CoverViewer *cv)

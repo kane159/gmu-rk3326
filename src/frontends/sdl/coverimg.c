@@ -19,7 +19,7 @@
 #include <SDL2/SDL_thread.h>
 #include <SDL2/SDL_image.h>
 #ifndef SDLFE_WITHOUT_SDL_GFX
-#include "SDL_rotozoom.h"
+#include "SDL2_rotozoom.h"
 #endif
 #include "coverimg.h"
 #include "../../png.h"
@@ -28,9 +28,10 @@
 #include "../../wejconfig.h"
 #include "../../core.h"
 #include "debug.h"
-
+extern SDL_Window   *window;
 static int cover_image_thread(void *udata)
 {
+	
 #ifndef SDLFE_WITHOUT_SDL_GFX
 	CoverImage  *ci = (CoverImage *)udata;
 	ImageSize    is;
@@ -118,7 +119,9 @@ static int cover_image_thread(void *udata)
 						cover_fullsize->w, cover_fullsize->h, tmp->w, tmp->h);*/
 				SDL_FreeSurface(cover_fullsize);
 				if (tmp) {
-					ci->image = SDL_DisplayFormat(tmp); 
+					//ci->image = SDL_DisplayFormat(tmp);
+					ci->image = SDL_ConvertSurfaceFormat(tmp, SDL_PIXELFORMAT_RGB24, 0);
+
 					SDL_FreeSurface(tmp);
 					wdprintf(V_INFO, "coverimg", "Loaded and resized cover image successfully.\n");
 				}

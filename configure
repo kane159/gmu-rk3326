@@ -474,7 +474,7 @@ if [ $? = 0 ]; then
 fi
 
 if [ "${feature_sdl_gfx}" -ne 0 ]; then
-	includes_test="#include <SDL2/SDL_rotozoom.h>"
+	includes_test="#include <SDL2/SDL2_rotozoom.h>"
 	if [ "$sdk_path" ]; then
 		sdl_cflags=$(sdl2-config --prefix="$sdk_path" --cflags)
 		sdl_libs=$(sdl2-config --prefix="$sdk_path" --libs)
@@ -482,7 +482,7 @@ if [ "${feature_sdl_gfx}" -ne 0 ]; then
 		sdl_cflags=$(sdl2-config --cflags)
 		sdl_libs=$(sdl2-config --libs)
 	fi
-	libs_test="$sdl_libs -lSDL_gfx"
+	libs_test="$sdl_libs -lSDL2_gfx"
 	includes_test_flags=$sdl_cflags
 	code_test=""
 	test_lib "SDL_gfx"

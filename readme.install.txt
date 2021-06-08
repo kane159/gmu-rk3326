@@ -74,6 +74,7 @@
 
 编辑文件 "/emuelec/scripts/modules/00 - The Gmu Music Player.sh"，内容如下:
 #!/bin/bash
+. /etc/profile
 cd /emuelec/gmu/
 ./gmu.bin 1>/dev/null 2>&1
 
