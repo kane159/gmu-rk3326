@@ -22,7 +22,13 @@ if [ "$CC" = "" ]; then
 	CC=cc
 fi
 
-TMP_CC=$(which $CC)
+if [ "$SDL2CONFIG" = "" ]; then
+	SDL2CONFIG=sdl2-config
+fi
+
+DEBUG_OUTPUT="/dev/null"
+
+TMP_CC=$(which "$(echo "$CC" | grep -o '^\S*')")
 
 LIBRARY_PATHS=
 if [ "$TMP_CC" != "" ]; then
@@ -70,7 +76,7 @@ _WEJTEST
 	echo "Checking '$1'..."
 	res=1
 	echo -n "$1 header files: "
-	if $CC $CFLAGS $INCLUDE_PATHS $includes_test_flags -c -o /tmp/test.o /tmp/test.wej.c -Wall 2>/dev/null; then
+	if $CC $CFLAGS $INCLUDE_PATHS $includes_test_flags -c -o /tmp/test.o /tmp/test.wej.c -Wall 2>${DEBUG_OUTPUT}; then
 		echo "okay";
 	else
 		echo "failed";
@@ -78,7 +84,7 @@ _WEJTEST
 	fi
 
 	echo -n "$1 library: "
-	if $CC $LFLAGS $LIBRARY_PATHS -o /tmp/test.exe /tmp/test.o $libs_test 2>/dev/null; then
+	if $CC $LFLAGS -o /tmp/test.exe /tmp/test.o $libs_test 2>${DEBUG_OUTPUT}; then
 		echo "okay";
 	else
 		echo "failed";
@@ -283,11 +289,11 @@ print_features_and_write_config()
 	fi
 	echo "CC=$CC" >>config.mk
 	if [ "$sdk_path" ]; then
-		echo "SDL_CFLAGS=$(sdl2-config --prefix="$sdk_path" --cflags)" >>config.mk
-		echo "SDL_LIB=$(sdl2-config --prefix="$sdk_path" --libs) -pthread" >>config.mk
+		echo "SDL_CFLAGS=$(${SDL2CONFIG} --prefix="$sdk_path" --cflags)" >>config.mk
+		echo "SDL_LIB=$(${SDL2CONFIG} --prefix="$sdk_path" --libs) -pthread" >>config.mk
 	else
-		echo "SDL_CFLAGS=$(sdl2-config --cflags)" >>config.mk
-		echo "SDL_LIB=$(sdl2-config --libs) -lpthread" >>config.mk
+		echo "SDL_CFLAGS=$(${SDL2CONFIG} --cflags)" >>config.mk
+		echo "SDL_LIB=$(${SDL2CONFIG} --libs) -lpthread" >>config.mk
 	fi
 
 	{
@@ -315,6 +321,7 @@ help()
 	echo "  --help"
 	echo "  --includes </path/to/additional/include-files>"
 	echo "  --libs </path/to/additional/libs>"
+	echo "  --verbose"
 }
 
 target_device="unknown"
@@ -392,6 +399,10 @@ do
 			libs="$libs -L${1#*=}"
 			shift
 			;;
+		--verbose)
+			DEBUG_OUTPUT="/dev/fd/2"
+			shift
+			;;
 		--) # End of all options
 			shift
 			break
@@ -458,11 +469,11 @@ fi
 # Tests
 includes_test="#include <SDL2/SDL.h>"
 if [ "$sdk_path" ]; then
-	sdl_cflags=$(sdl2-config --prefix="$sdk_path" --cflags)
-	sdl_libs=$(sdl2-config --prefix="$sdk_path" --libs)
+	sdl_cflags=$(${SDL2CONFIG} --prefix="$sdk_path" --cflags)
+	sdl_libs=$(${SDL2CONFIG} --prefix="$sdk_path" --libs)
 else
-	sdl_cflags=$(sdl2-config --cflags)
-	sdl_libs=$(sdl2-config --libs)
+	sdl_cflags=$(${SDL2CONFIG} --cflags)
+	sdl_libs=$(${SDL2CONFIG} --libs)
 fi
 libs_test=$sdl_libs
 includes_test_flags=$sdl_cflags
@@ -476,18 +487,18 @@ fi
 if [ "${feature_sdl_gfx}" -ne 0 ]; then
 	includes_test="#include <SDL2/SDL2_rotozoom.h>"
 	if [ "$sdk_path" ]; then
-		sdl_cflags=$(sdl2-config --prefix="$sdk_path" --cflags)
-		sdl_libs=$(sdl2-config --prefix="$sdk_path" --libs)
+		sdl_cflags=$(${SDL2CONFIG} --prefix="$sdk_path" --cflags)
+		sdl_libs=$(${SDL2CONFIG} --prefix="$sdk_path" --libs)
 	else
-		sdl_cflags=$(sdl2-config --cflags)
-		sdl_libs=$(sdl2-config --libs)
+		sdl_cflags=$(${SDL2CONFIG} --cflags)
+		sdl_libs=$(${SDL2CONFIG} --libs)
 	fi
 	libs_test="$sdl_libs -lSDL2_gfx"
 	includes_test_flags=$sdl_cflags
 	code_test=""
-	test_lib "SDL_gfx"
+	test_lib "SDL2_gfx"
 	if [ $? = 0 ]; then
-		echo "SDL_gfx support disabled."
+		echo "SDL2_gfx support disabled."
 		feature_sdl_gfx=0
 	fi
 fi
@@ -586,11 +597,11 @@ fi
 
 if [ "$fe_sdl" != 0 ]; then
 	if [ "$sdk_path" ]; then
-		sdl_cflags=$(sdl2-config --prefix="$sdk_path" --cflags)
-		sdl_libs=$(sdl2-config --prefix="$sdk_path" --libs)
+		sdl_cflags=$(${SDL2CONFIG} --prefix="$sdk_path" --cflags)
+		sdl_libs=$(${SDL2CONFIG} --prefix="$sdk_path" --libs)
 	else
-		sdl_cflags=$(sdl2-config --cflags)
-		sdl_libs=$(sdl2-config --libs)
+		sdl_cflags=$(${SDL2CONFIG} --cflags)
+		sdl_libs=$(${SDL2CONFIG} --libs)
 	fi
 	includes_test="#include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>"
