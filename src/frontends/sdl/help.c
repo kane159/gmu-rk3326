@@ -87,7 +87,7 @@ static const char *text_help =
 "享受GMU音乐播放器的乐趣。\n"
 "/作者:wej\n"
 "/汉化:netwan\n"
-"/打包:小凱\n"
+"/打包:kane159\n"
 "/QQ:1182389405\n"
 "\n"
 "\n"
