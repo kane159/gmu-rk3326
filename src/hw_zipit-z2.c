@@ -93,5 +93,5 @@ void hw_detect_device_model(void)
 
 const char *hw_get_device_model_name(void)
 {
-	return "RG351V";
+	return "rk3326";
 }
