@@ -1,10 +1,10 @@
 #!/bin/sh
-mkdir -p ./dist/emuelec/gmu/
+mkdir -p ./dist/gmu/
 cp readme.install.txt ./dist/readme.txt
-cp gamelist.xml ./dist/emuelec/gmu/
-cp -r gmu.bin rg351v.keymap gmuinput.rg351v.conf themes frontends decoders ./dist/emuelec/gmu/
-cp gmu.rg351v.conf ./dist/emuelec/gmu/gmu.conf
-cp gmuinput.rg351v.conf ./dist/emuelec/gmu/gmuinput.rg351v.conf
-cp rg351v.keymap ./dist/emuelec/gmu/default.keymap
+cp gamelist.xml ./dist/gmu/
+cp -r gmu.bin rk3326.keymap gmuinput.rk3326.conf themes frontends decoders ./dist/gmu/
+cp gmu.rk3326.conf ./dist/gmu/gmu.conf
+cp gmuinput.rk3326.conf ./dist/gmu/gmuinput.rg351v.conf
+cp rk3326.keymap ./dist/gmu/default.keymap
 cd ./dist/
-tar -czvf ../gmu-rg351v-bin.tar.gz ./
+tar -czvf ../gmu-rk3326-bin.tar.gz ./
