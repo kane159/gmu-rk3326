@@ -26,7 +26,7 @@ void hw_display_off(void)
 	char  tmp[5];
 	FILE *f;
 
-	wdprintf(V_DEBUG, "hw_rg351v", "Display off requested.\n");
+	wdprintf(V_DEBUG, "hw_rk3326", "Display off requested.\n");
 	
 	if ((f = fopen("/sys/class/backlight/backlight/bl_power", "w"))) {
 		fprintf(f, "1\n");
@@ -39,7 +39,7 @@ void hw_display_on(void)
 {
 	FILE *f;
 
-	wdprintf(V_DEBUG, "hw_rg351v", "Display on requested.\n");
+	wdprintf(V_DEBUG, "hw_rk3326", "Display on requested.\n");
 	if ((f = fopen("/sys/class/backlight/backlight/bl_power", "w"))) {
 		fprintf(f, "0\n");
 		fclose(f);
@@ -50,7 +50,7 @@ int hw_open_mixer(int mixer_channel)
 {
 	int res = oss_mixer_open();
 	selected_mixer = mixer_channel;
-	wdprintf(V_INFO, "hw_rg351v", "Selected mixer: %d\n", selected_mixer);
+	wdprintf(V_INFO, "hw_rk3326", "Selected mixer: %d\n", selected_mixer);
 	return res;
 }
 
@@ -64,7 +64,7 @@ void hw_set_volume(int volume)
 	if (selected_mixer >= 0) {
 		if (volume >= 0) oss_mixer_set_volume(selected_mixer, volume);
 	} else {
-		wdprintf(V_INFO, "hw_rg351v", "No suitable mixer available.\n");
+		wdprintf(V_INFO, "hw_rk3326", "No suitable mixer available.\n");
 	}
 }
 
@@ -74,5 +74,5 @@ void hw_detect_device_model(void)
 
 const char *hw_get_device_model_name(void)
 {
-	return "俺拔你卡-RG351V";
+	return "rk3326";
 }
