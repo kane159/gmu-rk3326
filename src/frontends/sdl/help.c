@@ -109,8 +109,8 @@ static const char *text_help =
 void help_init(TextBrowser *tb_help, Skin *skin, KeyActionMapping *kam)
 {
 	static char txt[3072];
-	SDL_RWops *pixelsWop = SDL_RWFromConstMem((const unsigned char *)qr_bmp, sizeof(qr_bmp));
-	tb_help->qr = SDL_LoadBMP_RW(pixelsWop, 1);
+	//SDL_RWops *pixelsWop = SDL_RWFromConstMem((const unsigned char *)qr_bmp, sizeof(qr_bmp));
+	//tb_help->qr = SDL_LoadBMP_RW(pixelsWop, 1);
 	snprintf(txt, 3071, text_help,
 	                    key_action_mapping_get_button_name(kam, MODIFIER),
 	                    key_action_mapping_get_full_button_name(kam, MOVE_CURSOR_UP),
